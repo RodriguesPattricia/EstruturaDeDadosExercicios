@@ -1,4 +1,4 @@
-public class LDE implements IList {
+public class LDE {
     private Node begin;
     private Node end;
     
@@ -64,4 +64,41 @@ public class LDE implements IList {
         return even;
     }
 
+    public void add_ordenado(int info) {
+
+        Node newNode = new Node(info);
+
+        if (begin == null) {
+            begin = newNode;
+            end = newNode;
+        } else if (info < begin.getInfo()) {
+            newNode.setNext(begin);
+            begin.setPrevious(newNode);
+            begin = newNode;
+        } else if (info > end.getInfo()) {
+            newNode.setPrevious(end);
+            end.setNext(newNode);
+            end = newNode;
+        } else {
+            Node a = begin;
+
+            while (a != null && a.getInfo() < info) {
+                a = a.getNext();
+            }
+
+            newNode.setNext(a);
+            newNode.setPrevious(a.getPrevious());
+            a.getPrevious().setNext(newNode);
+            a.setPrevious(newNode);
+        }
+    }
+
+    public void concat(LDE l) {
+        Node aux = l.begin;
+        while (aux != null) {
+            this.addEnd(aux.getInfo());
+            aux = aux.getNext();
+        }
+    }
+    
 }
